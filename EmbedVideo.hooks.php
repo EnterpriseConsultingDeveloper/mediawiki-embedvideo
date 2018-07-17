@@ -70,7 +70,7 @@ class EmbedVideoHooks {
 	 * @return	void
 	 */
 	public static function onExtension() {
-		global $wgEmbedVideoDefaultWidth, $wgMediaHandlers, $wgFileExtensions;
+		global $wgEmbedVideoDefaultWidth, $wgMediaHandlers, $wgFileExtensions, $wgExtensionFunctions;
 
 		$config = ConfigFactory::getDefaultInstance()->makeConfig('main');
 
@@ -563,8 +563,13 @@ class EmbedVideoHooks {
 		if ($parser) {
 			// dont call this if parser is null (such as in API usage).
 			$out = $parser->getOutput();
-			$out->addModules( 'ext.embedVideo' );
-			$out->addModuleStyles( 'ext.embedVideo.styles' );
+			if ($service == 'plyr') {
+				$out->addModules( 'ext.embedVideo-plyr' );
+				$out->addModuleStyles( 'ext.embedVideo-plyr.styles' );
+			} else {
+				$out->addModules( 'ext.embedVideo' );
+				$out->addModuleStyles( 'ext.embedVideo.styles' );
+			}
 		}
 
 		return [

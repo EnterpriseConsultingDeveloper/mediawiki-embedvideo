@@ -24,7 +24,7 @@ class VideoService {
 			'default_ratio'	=> 1.77777777777778, // (16 / 9)
 			'https_enabled'	=> true,
 			'url_regex'		=> [
-				'#(.*mp4)#is'
+				'#(s3.*mp4)#is'
 			],
 			'id_regex'		=> [
 				'#^.*$#is'
