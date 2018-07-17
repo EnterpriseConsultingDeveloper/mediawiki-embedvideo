@@ -1,4 +1,17 @@
 ## Patch Notes
+### v2.7.3.1
+* added plyr player
+
+Example usage:
+```
+{{#evt:
+service=plyr
+|id=https://abc.def/ghi.mp4 // video url
+|alignment=center
+|dimensions=430
+}}
+```
+
 ### v2.7.3
 * Default Twitch VOD to autoplay=false by default
 * Allow videos to be sized in 1:1 aspect ratios for special use cases.
