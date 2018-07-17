@@ -5,7 +5,8 @@
 		"Jim R. Wilson",
 		"Andrew Whitworth",
 		"Alexia E. Smith",
-		"Cameron M. Chunn"
+		"Cameron M. Chunn",
+		"Raffaele Dell'Aversana"
 	],
 	"url": "https://www.mediawiki.org/wiki/Extension:EmbedVideo",
 	"descriptionmsg": "embedvideo_description",
@@ -55,9 +56,29 @@
 				"mobile"
 			]
 		},
+		"ext.embedVideo-plyr": {
+			"scripts": [
+				"js/plyr.js",
+				"js/plyr_run.js"
+			],
+			"position": "bottom",
+			"targets": [
+				"desktop",
+				"mobile"
+			]
+		},
 		"ext.embedVideo.styles": {
 			"styles": [
 				"css/embedvideo.css"
+			],
+			"targets": [
+				"desktop",
+				"mobile"
+			]
+		},
+		"ext.embedVideo-plyr.styles": {
+			"styles": [
+				"css/plyr.css"
 			],
 			"targets": [
 				"desktop",
