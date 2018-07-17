@@ -17,6 +17,19 @@ class VideoService {
 	 * @var		array
 	 */
 	static private $services = [
+		'plyr' => [
+			'embed'		=> '<video controls controlsList="nodownload" crossorigin playsinline width="%2$d" height="%3$d">'.
+					'<source src="https://%1$s" type="video/mp4" size="1080"></video>',
+			'default_width'	=> 640,
+			'default_ratio'	=> 1.77777777777778, // (16 / 9)
+			'https_enabled'	=> true,
+			'url_regex'		=> [
+				'#(.*mp4)#is'
+			],
+			'id_regex'		=> [
+				'#^.*$#is'
+			]
+		],
 		'archiveorg' => [
 			'embed'			=> '<iframe src="//archive.org/embed/%1$s" width="%2$d" height="%3$d" frameborder="0" allowfullscreen="true"></iframe>',
 			'default_width'	=> 640,
