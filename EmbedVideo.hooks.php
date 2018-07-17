@@ -244,10 +244,11 @@ class EmbedVideoHooks {
 		$link = Xml::element('a', [
 			'href' => '#',
 			'data-video-json' => $json,
-			'class' => 'embedvideo-evl vplink'
+			'class' => 'embedvideo-plyr vplink'
 		], $options['linktitle']);
 
-		$parser->getOutput()->addModules( ['ext.embedVideo-evl', 'ext.embedVideo.styles'] );
+		// $parser->getOutput()->addModules( ['ext.embedVideo-evl', 'ext.embedVideo.styles'] );
+		$parser->getOutput()->addModules( ['ext.embedVideo-plyr', 'ext.embedVideo-plyr.styles'] );
 
 		return [ $link, 'noparse' => true, 'isHTML' => true ];
 	}
