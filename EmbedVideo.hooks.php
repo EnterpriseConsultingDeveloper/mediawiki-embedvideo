@@ -13,7 +13,7 @@ class EmbedVideoHooks {
 	/**
 	 * Temporary storage for the current service object.
 	 *
-	 * @var		object
+	 * @var		\EmbedVideo\VideoService
 	 */
 	static private $service;
 
@@ -60,7 +60,8 @@ class EmbedVideoHooks {
 		'container'		=> null,
 		'urlargs'		=> null,
 		'autoresize'	=> null,
-		'valignment'	=> null
+		'valignment'	=> null,
+        'poster'        => null
 	];
 
 	/**
@@ -188,8 +189,9 @@ class EmbedVideoHooks {
 			$args['container'],
 			$args['urlargs'],
 			$args['autoresize'],
-			$args['valignment']
-		);
+			$args['valignment'],
+            $args['poster']
+        );
 	}
 
 	/**
@@ -293,7 +295,8 @@ class EmbedVideoHooks {
 				$args['container'],
 				$args['urlargs'],
 				$args['autoresize'],
-				$args['valignment']
+				$args['valignment'],
+				$args['poster']
 			)[0];
 			// replace the default content with the new content
 			$div = str_replace( $input, $new, $div );
@@ -378,7 +381,8 @@ class EmbedVideoHooks {
 			$args['container'],
 			$args['urlargs'],
 			$args['autoresize'],
-			$args['valignment']
+			$args['valignment'],
+			$args['poster']
 		);
 	}
 
@@ -432,7 +436,8 @@ class EmbedVideoHooks {
 			$args['container'],
 			$args['urlargs'],
 			$args['autoresize'],
-			$args['valignment']
+			$args['valignment'],
+			$args['poster']
 		);
 	}
 
@@ -459,7 +464,8 @@ class EmbedVideoHooks {
 			$args['container'],
 			$args['urlargs'],
 			$args['autoresize'],
-			$args['valignment']
+			$args['valignment'],
+			$args['poster']
 		);
 	}
 
@@ -477,9 +483,10 @@ class EmbedVideoHooks {
 	 * @param	string	[Optional] Extra URL Arguments
 	 * @param 	string	[Optional] Automatically Resize video that will break its parent container.
 	 * @param	string	[Optional] Vertical Alignment of the embed container.
+	 * @param	string	[Optional] Preview image of the embed container.
 	 * @return	string	Encoded representation of input params (to be processed later)
 	 */
-	static public function parseEV( $parser, $service = null, $id = null, $dimensions = null, $alignment = null, $description = null, $container = null, $urlArgs = null, $autoResize = null, $vAlignment = null ) {
+	static public function parseEV( $parser, $service = null, $id = null, $dimensions = null, $alignment = null, $description = null, $container = null, $urlArgs = null, $autoResize = null, $vAlignment = null, $poster = null ) {
 		self::resetParameters();
 
 		$service		= trim( $service );
@@ -492,6 +499,7 @@ class EmbedVideoHooks {
 		$height			= null;
 		$autoResize		= ( isset( $autoResize ) && strtolower( trim( $autoResize ) ) == "false" ) ? false : true;
 		$vAlignment		= trim( $vAlignment );
+		$poster		= trim( $poster );
 
 		// I am not using $parser->parseWidthParam() since it can not handle height only.  Example: x100
 		if ( stristr( $dimensions, 'x' ) ) {
@@ -542,11 +550,15 @@ class EmbedVideoHooks {
 			return self::error( 'alignment', $alignment );
 		}
 
-		if ( !self::setVerticalAlignment( $vAlignment ) ) {
-			return self::error( 'valignment', $vAlignment );
-		}
+        if ( !self::setVerticalAlignment( $vAlignment ) ) {
+            return self::error( 'valignment', $vAlignment );
+        }
 
-		/************************************/
+        if ( !self::$service->setPoster( $poster ) ) {
+            return self::error( 'poster', $poster );
+        }
+
+        /************************************/
 		/* HMTL Generation                  */
 		/************************************/
 		$html = self::$service->getHtml();
@@ -612,9 +624,7 @@ class EmbedVideoHooks {
 			$classString .= " " . $addClass;
 		}
 
-		$html = "<div class='" . $classString . "' style='" . $styleString . "'><div class='" . $innerClassString . "' style='width: " . self::$service->getWidth() . "px;'>{$html}" . ( self::getDescription() !== false ? "<div class='thumbcaption'>" . self::getDescription() . "</div>" : null ) . "</div></div>";
-
-		return $html;
+		return "<div class='" . $classString . "' style='" . $styleString . "'><div class='" . $innerClassString . "' style='width: " . self::$service->getWidth() . "px;'>{$html}" . ( self::getDescription() !== false ? "<div class='thumbcaption'>" . self::getDescription() . "</div>" : null ) . "</div></div>";
 	}
 
 	/**

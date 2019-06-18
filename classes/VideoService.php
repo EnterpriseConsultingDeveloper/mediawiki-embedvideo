@@ -18,7 +18,7 @@ class VideoService {
 	 */
 	static private $services = [
 		'plyr' => [
-			'embed'		=> '<video controls controlsList="nodownload" crossorigin playsinline width="%2$d" height="%3$d">'.
+			'embed'		=> '<video controls controlsList="nodownload" crossorigin playsinline width="%2$d" height="%3$d" %4$s>'.
 					'<source src="https://%1$s" type="video/mp4" size="1080"></video>',
 			'default_width'	=> 640,
 			'default_ratio'	=> 1.77777777777778, // (16 / 9)
@@ -515,6 +515,12 @@ class VideoService {
 	 */
 	private $urlArgs = false;
 
+    /**
+     * Poster image
+     * @var  string
+     */
+	private $poster = false;
+
 	/**
 	 * Main Constructor
 	 *
@@ -591,6 +597,7 @@ class VideoService {
 				htmlentities($this->getVideoID(), ENT_QUOTES),
 				$this->getWidth(),
 				$this->getHeight(),
+                $this->getPoster()
 			];
 
 			if ($this->getExtraIds() !== false) {
@@ -656,6 +663,32 @@ class VideoService {
 			return false;
 		}
 	}
+
+    /**
+     * Return Poster image
+     *
+     * @access	public
+     * @return	mixed	Poster image or false for one that is not set.
+     */
+    public function getPoster() {
+        return $this->poster ? 'poster="'.$this->poster.'"' : '';
+    }
+
+    /**
+     * Set the Video ID for this video.
+     *
+     * @access	public
+     * @param	string	Video ID/URL
+     * @return	boolean	Success
+     */
+    public function setPoster($poster) {
+        if ($poster !== false) {
+            $this->poster = $poster;
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 	/**
 	 * Parse the video ID/URL provided.
